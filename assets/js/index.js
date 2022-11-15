@@ -6,7 +6,38 @@ let board = new Board(); // creates a new game board
 // Create the UI of the game using HTML elements based on this grid.
 console.log(board.grid);
 
-// Your code here
+// square event listener callback function
+const checkHit = (event) => {
+  const square = event.target;
+  // call board method with square coordinates as argument and check if hit any ships
+  const hitResult = board.makeHit(square.dataset.x, square.dataset.y);
+
+  if (hitResult !== null) {
+    event.target.innerText = hitResult;
+    event.target.classList.add("box-hit");
+    console.log(board.numRemaining);
+
+    isGameOver();
+  } else {
+    event.target.classList.add("box-miss");
+  }
+};
+
+const isGameOver = () => {
+  if (board.isGameOver()) {
+    const gridSquares = document.querySelectorAll(".box");
+    gridSquares.forEach((square) => {
+      square.removeEventListener("click", checkHit);
+    });
+
+    h2Element.style.visibility = "visible";
+  }
+};
+
+const h2Element = document.createElement("h2");
+h2Element.innerText = "YOU WIN!!!";
+h2Element.style.visibility = "hidden";
+document.body.appendChild(h2Element);
 const mainSection = document.createElement("section");
 mainSection.classList.add("main-section");
 document.body.appendChild(mainSection);
@@ -19,19 +50,6 @@ for (let i = 0; i < board.grid.length; i++) {
     square.setAttribute("data-y", j);
     mainSection.appendChild(square);
 
-    square.addEventListener("click", (event) => {
-      const hitResult = board.makeHit(
-        event.target.dataset.x,
-        event.target.dataset.y
-      );
-      // console.log(hitResult);
-
-      if (hitResult !== null) {
-        event.target.innerText = hitResult;
-        event.target.classList.add("box-hit");
-      } else {
-        event.target.classList.add("box-miss");
-      }
-    });
+    square.addEventListener("click", checkHit);
   }
 }
