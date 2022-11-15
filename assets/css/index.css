@@ -30,6 +30,19 @@ h2 {
   text-align: center;
 }
 
+div {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+button {
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-family: "Viga", sans-serif;
+  background-color: #a5c9ca;
+  color: #112031;
+}
+
 .main-section {
   width: 500px;
   height: 500px;
